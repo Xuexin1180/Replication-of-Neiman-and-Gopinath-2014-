@@ -83,31 +83,6 @@ for k = 1:numel(figs)
 end
 
 %%
-
-
-%%%%%%%%%%%%%%%%%%%% NO ROUNDABOUT PRODUCTION %%%%%%%%%%%%%%%%%%%%%%
-fprintf('\n Performing "No Roundabout Prod." Simulation')
-
-run('Initialization.m');            % <— resets all globals (Omega,p,y,...)
-load('productivities.mat','A');     % keep A identical across scenarios
-A = repmat(A,1,simnum);
-
-for state = 1:simnum
-    pm_scale = 1 + (state-1)*simstep;
-    SimFunction_no_roundabout(pm_scale, state);
-end
-
-fprintf('\n No roundabout analysis DONE ✅\n');
-
-% calculate productivity
-[dlnPR3,Feenstra3,dlnPRtilde3] = calc_PR();
-
-fprintf('\n No roundabout: productivity change is %.6f\n', dlnPR3);
-fprintf('\n No roundabout: Feenstra variety effect is %.6f\n', Feenstra3);
-fprintf('\n No roundabout: mismeasured productivity change is %.6f\n', dlnPRtilde3);
-
-
-%%
 %%%%%%%%%%%%%%%%%%%% NO FIXED COSTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fprintf('\n Performing "No Fixed Costs" Simulation')
@@ -116,10 +91,16 @@ run('Initialization.m');            % <— resets all globals (Omega,p,y,...)
 load('productivities.mat','A');     % keep A identical across scenarios
 A = repmat(A,1,simnum);
 
-P_N = 0.96;                     % non-tradable goods price index
-f_v = 0;                   % fixed cost per variety import
-f_e = 0;                        % fixed cost exporting
-init_pm = 1.6976;               % initial foreign prices
+% % control
+% P_N = 0.96;                     % non-tradable goods price index
+% f_v = 0;                   % fixed cost per variety import
+% f_e = 0;                        % fixed cost exporting
+% init_pm = 1.6976;               % initial foreign prices
+
+% paper's replication file:
+P_N = 0.965;
+f_v = 0;
+init_pm = 3.82;
 
 
 for state = 1:simnum
@@ -135,4 +116,37 @@ fprintf('\n No fixed costs analysis DONE ✅\n');
 fprintf('\n No fixed costs: productivity change is %.6f\n', dlnPR2);
 fprintf('\n No fixed costs: Feenstra variety effect is %.6f\n', Feenstra2);
 fprintf('\n No fixed costs: mismeasured productivity change is %.6f\n', dlnPRtilde2);
+
+
+
+%%
+
+
+%%%%%%%%%%%%%%%%%%%% NO ROUNDABOUT PRODUCTION %%%%%%%%%%%%%%%%%%%%%%
+fprintf('\n Performing "No Roundabout Prod." Simulation')
+
+run('Initialization.m');            % <— resets all globals (Omega,p,y,...)
+load('productivities.mat','A');     % keep A identical across scenarios
+A = repmat(A,1,simnum);
+
+%   INITIALIZE ECONOMIC VALUES
+P_N = 0.96;                     % non-tradable goods price index
+f_v = 0.0075;                   % fixed cost per variety import
+f_e = 0;                        % fixed cost exporting
+init_pm = 1.6976;               % initial foreign prices
+
+for state = 1:simnum
+    pm_scale = 1 + (state-1)*simstep;
+    SimFunction_no_roundabout(pm_scale, state);
+end
+
+fprintf('\n No roundabout analysis DONE ✅\n');
+
+% calculate productivity
+[dlnPR3,Feenstra3,dlnPRtilde3] = calc_PR();
+
+fprintf('\n No roundabout: productivity change is %.6f\n', dlnPR3);
+fprintf('\n No roundabout: Feenstra variety effect is %.6f\n', Feenstra3);
+fprintf('\n No roundabout: mismeasured productivity change is %.6f\n', dlnPRtilde3);
+
 

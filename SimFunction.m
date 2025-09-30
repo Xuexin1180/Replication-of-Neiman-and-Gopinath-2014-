@@ -1,7 +1,7 @@
 function SimFunction(pm_scale, state)
 
-global tr_weight theta sigma epsilon alpha mu rho eta beta lambda w r C ...
-       h P_N init_pm tol1 tol2 maxiter1 maxiter2 omega_max kappa
+global tr_weight theta sigma epsilon alpha mu rho eta lambda w r C ...
+       h P_N init_pm tol1 tol2 maxiter1 maxiter2 omega_max 
 global nf simnum
 global A Omega p y g z gamma P_X P_M P_Z P_G P C_N G pm
 
@@ -13,6 +13,7 @@ omega_state = Omega(:, state);
 P_v = alpha^-alpha*(1-alpha)^-(1-alpha)*r^alpha*w^(1-alpha);        
 h   = mu^-mu*(1-mu)^-(1-mu)*P_v^(1-mu);                               
 pm_state   = pm_scale * init_pm;                                        
+
 P_Z_state  = sum(p_state.^(theta/(theta-1)))^((theta-1)/theta);         
 
 omegachange = 1e8;                                                  
@@ -95,8 +96,8 @@ while (omegachange > tol1 && it_num1 < maxiter1)
 end
 
 if it_num1==maxiter1 
-    display('ERROR, NOT CONVERGING!')
-    display('Press Control-C to Break Program and Start Again')
+    fprintf('ERROR, NOT CONVERGING!')
+    fprintf('Press Control-C to Break Program and Start Again')
     pause;
 end
 

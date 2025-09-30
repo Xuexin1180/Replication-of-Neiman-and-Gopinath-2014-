@@ -13,7 +13,12 @@ omega_state = Omega(:, state);
 P_v = alpha^-alpha*(1-alpha)^-(1-alpha)*r^alpha*w^(1-alpha);        
 h   = mu^-mu*(1-mu)^-(1-mu)*P_v^(1-mu);                               
 pm_state   = pm_scale * init_pm;                                        
-P_Z_state  = sum(p_state.^(theta/(theta-1)))^((theta-1)/theta);         
+
+% Shut down the roundabout update of P_Z
+%P_Z_state  = sum(p_state.^(theta/(theta-1)))^((theta-1)/theta); 
+
+PZ_CONST = 0.221669;
+P_Z_state = PZ_CONST;   % scalar
 
 omegachange = 1e8;                                                  
 it_num1=0;  
@@ -30,9 +35,9 @@ while (omegachange > tol1 && it_num1 < maxiter1)
         it_num2 = it_num2 + 1;
 
         p_new_state  = epsilon/(epsilon-1)*h*P_X_state.^mu./A_state;                             
-        P_Z_new_state= sum(p_new_state.^(theta/(theta-1))).^((theta-1)/theta);             
-        P_X_new_state= (P_Z_new_state.^(rho/(rho-1))+(P_M_state).^(rho/(rho-1))).^((rho-1)/rho); 
-        P_Z_state    = P_Z_new_state;
+        % P_Z_new_state= sum(p_new_state.^(theta/(theta-1))).^((theta-1)/theta);             
+        P_X_new_state= (P_Z_state.^(rho/(rho-1))+(P_M_state).^(rho/(rho-1))).^((rho-1)/rho); 
+        % P_Z_state    = P_Z_new_state;
         P_X_state    = P_X_new_state;
 
         it_err1 = max(abs(log(p_new_state./p_state)));                                     
@@ -71,16 +76,14 @@ while (omegachange > tol1 && it_num1 < maxiter1)
 end
 
 if it_num1==maxiter1 
-    display('ERROR, NOT CONVERGING!')
-    display('Press Control-C to Break Program and Start Again')
+    fprintf('ERROR, NOT CONVERGING!')
+    fprintf('Press Control-C to Break Program and Start Again')
     pause;
 end
 
 C_N_state = (P_N/((1-tr_weight)*P_state))^-(1/(1-eta))*C;
 z_state = 123456789*ones(size(y_state-g_state));                                                                            
  
-
-
 % write back to data structure
 % firm
 A(:,state)      = A_state;
