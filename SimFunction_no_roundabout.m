@@ -46,35 +46,11 @@ while (omegachange > tol1 && it_num1 < maxiter1)
         P_N^(eta/(eta-1)))^((eta-1)/eta);                                        
     G_state   = (P_G_state/(tr_weight*P_state))^(-1/(1-eta))*C;                                      
     g_state   = (p_state/P_G_state).^(1/(sigma-1))*G_state;                                                
-    gamma_state = (P_Z_state./P_X_state).^(rho/(rho-1));                                           
+    gamma_state = (P_Z_state./P_X_state).^(rho/(rho-1)); 
 
-    % %% roundabout production
-    % % --- Roundabout production via fixed-point on y = g + sum_j z_{ji} ,
-    % % see derivation in Xuexin's notes
-    % lead_state = (mu*theta) * ( p_state.^(1/(theta-1)) ) * P_Z_state^(-theta/(theta-1));  
-    % 
-    % % initialize at no-roundabout (or previous iterate)
-    % y_state = g_state;
-    % 
-    % % simple fixed point: y <- g + lead * sum_j gamma_j p_j y_j
-    % it = 0; 
-    % err = 1e8;
-    % while (err > tol2 && it < maxiter2)
-    %     it  = it + 1;
-    %     S   = sum( gamma_state .* p_state .* y_state);              
-    %     y_n = g_state + lead_state * S;                       
-    %     err = max(abs(log((y_n + 1e-12)./(y_state + 1e-12))));
-    %     y_state   = y_n;
-    % end
+    %% no roundabout production
 
-    % paper's way:
-    term1  = (1/mu) * P_Z_state^(theta/(theta-1));                              
-    term2  = sum(((epsilon-1)/epsilon) * (gamma_state .* p_state.^(theta/(theta-1)))); 
-    term3a = p_state.^( 1/(1 - sigma) - 1/(1 - theta) );                        
-    term3b = gamma_state .* ((epsilon-1)/epsilon) .* p_state.^( sigma/(sigma-1) );    
-    term3  = term3a * sum(term3b);                                              
-
-    y_state = g_state ./ ( (term1 - term2) ./ (term1 - term2 + term3) );        
+    y_state = g_state;
 
     %% OUTER LOOP: find the optimal import scope
     omega_new = omega_state;
@@ -100,9 +76,10 @@ if it_num1==maxiter1
     pause;
 end
 
-C_N_state = (P_N/((1-tr_weight)*P_state))^-(1/(1-eta))*C;        
-z_state   = y_state-g_state;                                             
+C_N_state = (P_N/((1-tr_weight)*P_state))^-(1/(1-eta))*C;
+z_state = 123456789*ones(size(y_state-g_state));                                                                            
  
+
 
 % write back to data structure
 % firm
