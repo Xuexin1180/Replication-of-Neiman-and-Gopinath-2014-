@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 function SimFunction(pm_scale, state)
 
 global tr_weight theta sigma epsilon alpha mu rho eta beta lambda w r C ...

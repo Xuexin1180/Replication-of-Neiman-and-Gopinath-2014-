@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 % Optimal decision rule arrays
 % nf: number of firms
 % simnum: status, pre-shock = 1, post-shock = 2

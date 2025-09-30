@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 function [dlnPR,Feenstra,dlnPRtilde] = calc_PR()
 
 global alpha f_e f_v lambda mu nf r rho theta w ...

@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 function A = draw_productivity(nf, simnum, A_ln_sd, A_mu)
 % Draw firm-level productivity from a lognormal distribution
 % nf      : number of firms

@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 function [out1] = profits_noimp(P_Z,A_i,y0,p0)
 
 global tr_weight theta sigma epsilon alpha mu rho eta beta lambda w r C

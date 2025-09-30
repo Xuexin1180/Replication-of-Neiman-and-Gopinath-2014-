@@ -1,3 +1,5 @@
+% version: Sept. 2025
+
 %   INITIALIZE VALUES FOR ECONOMIC PARAMETERS ACROSS ALL SIMULATIONS
 global tr_weight theta sigma epsilon alpha mu rho eta beta lambda w r C
 
